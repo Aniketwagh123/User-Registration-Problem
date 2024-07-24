@@ -45,10 +45,13 @@ class UserValidator:
     def validate_password(cls, password: str) -> bool:
         # Rule1: Minimum 8 characters
         # Rule2: At least 1 uppercase letter
+        # Rule3: At least 1 numeric digit
 
         if len(password) < 8:
             return False
         if not re.search(r"[A-Z]", password):
+            return False
+        if not re.search(r"[0-9]", password):
             return False
 
         return True
@@ -99,12 +102,11 @@ class InputReader:
     def password_input(cls) -> str:
         while True:
             password = input(
-                "Enter your password (minimum 8 characters, including at least 1 uppercase letter): ")
+                "Enter your password (minimum 8 characters, including at least 1 uppercase letter and 1 digit): ")
             if UserValidator.validate_password(password):
                 return password
             else:
-                print(
-                    "Password must be at least 8 characters long and include at least one uppercase letter. Please try again.")
+                print("Password must be at least 8 characters long and include at least one uppercase letter and one numeric digit. Please try again.")
 
 
 if __name__ == "__main__":
