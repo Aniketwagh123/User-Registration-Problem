@@ -1,5 +1,6 @@
 import re
 
+
 class User:
     def __init__(self, first_name: str, last_name: str, email: str, mobile_number: str, password: str):
         self.__first_name = first_name
@@ -43,9 +44,14 @@ class UserValidator:
     @classmethod
     def validate_password(cls, password: str) -> bool:
         # Rule1: Minimum 8 characters
-        if len(password) >= 8:
-            return True
-        return False
+        # Rule2: At least 1 uppercase letter
+
+        if len(password) < 8:
+            return False
+        if not re.search(r"[A-Z]", password):
+            return False
+
+        return True
 
 
 class InputReader:
@@ -81,20 +87,24 @@ class InputReader:
     @classmethod
     def mobile_number_input(cls) -> str:
         while True:
-            mobile_number = input("Enter your mobile number (e.g. 91 9919819801): ")
+            mobile_number = input(
+                "Enter your mobile number (e.g. 91 9919819801): ")
             if UserValidator.validate_mobile_number(mobile_number):
                 return mobile_number
             else:
-                print("Mobile number must be in the format '91 9919819801'. Please try again.")
+                print(
+                    "Mobile number must be in the format '91 9919819801'. Please try again.")
 
     @classmethod
     def password_input(cls) -> str:
         while True:
-            password = input("Enter your password (minimum 8 characters): ")
+            password = input(
+                "Enter your password (minimum 8 characters, including at least 1 uppercase letter): ")
             if UserValidator.validate_password(password):
                 return password
             else:
-                print("Password must be at least 8 characters long. Please try again.")
+                print(
+                    "Password must be at least 8 characters long and include at least one uppercase letter. Please try again.")
 
 
 if __name__ == "__main__":
