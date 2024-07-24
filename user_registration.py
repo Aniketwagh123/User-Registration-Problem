@@ -1,12 +1,12 @@
 import re
 
-
 class User:
-    def __init__(self, first_name: str, last_name: str, email: str, mobile_number: str):
+    def __init__(self, first_name: str, last_name: str, email: str, mobile_number: str, password: str):
         self.__first_name = first_name
         self.__last_name = last_name
         self.__email = email
         self.__mobile_number = mobile_number
+        self.__password = password
 
     def __str__(self):
         return f"[First Name: {self.__first_name}, Last Name: {self.__last_name}, Email: {self.__email}, Mobile Number: {self.__mobile_number}]"
@@ -37,6 +37,13 @@ class UserValidator:
     def validate_mobile_number(cls, mobile_number: str) -> bool:
         mobile_regex = r'^\d{2} \d{10}$'
         if re.match(mobile_regex, mobile_number):
+            return True
+        return False
+
+    @classmethod
+    def validate_password(cls, password: str) -> bool:
+        # Rule1: Minimum 8 characters
+        if len(password) >= 8:
             return True
         return False
 
@@ -74,13 +81,20 @@ class InputReader:
     @classmethod
     def mobile_number_input(cls) -> str:
         while True:
-            mobile_number = input(
-                "Enter your mobile number (e.g. 91 9919819801): ")
+            mobile_number = input("Enter your mobile number (e.g. 91 9919819801): ")
             if UserValidator.validate_mobile_number(mobile_number):
                 return mobile_number
             else:
-                print(
-                    "Mobile number must be in the format '91 9919819801'. Please try again.")
+                print("Mobile number must be in the format '91 9919819801'. Please try again.")
+
+    @classmethod
+    def password_input(cls) -> str:
+        while True:
+            password = input("Enter your password (minimum 8 characters): ")
+            if UserValidator.validate_password(password):
+                return password
+            else:
+                print("Password must be at least 8 characters long. Please try again.")
 
 
 if __name__ == "__main__":
@@ -88,6 +102,7 @@ if __name__ == "__main__":
     last_name = InputReader.last_name_input()
     email = InputReader.email_input()
     mobile_number = InputReader.mobile_number_input()
+    password = InputReader.password_input()
     user = User(first_name=first_name, last_name=last_name,
-                email=email, mobile_number=mobile_number)
+                email=email, mobile_number=mobile_number, password=password)
     print(user)
