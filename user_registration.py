@@ -123,3 +123,6 @@ if __name__ == "__main__":
     user = User(first_name=first_name, last_name=last_name,
                 email=email, mobile_number=mobile_number, password=password)
     print(user)
+
+
+# TODO: test_filename.py do unit test using pyTest
