@@ -36,9 +36,14 @@ class UserValidator:
 
     @classmethod
     def validate_mobile_number(cls, mobile_number: str) -> bool:
-        mobile_regex = r'^\d{2} \d{10}$'
-        if re.match(mobile_regex, mobile_number):
+        indian_mobile_regex = r'^91\s[789]\d{9}$'
+        international_mobile_regex = r'^\d{10}$'
+
+        if re.match(indian_mobile_regex, mobile_number):
             return True
+        if re.match(international_mobile_regex, mobile_number):
+            return True
+
         return False
 
     @classmethod
@@ -125,4 +130,4 @@ if __name__ == "__main__":
     print(user)
 
 
-# TODO: test_filename.py do unit test using pyTest
+# TODO: give python script to do unit test using pyTest for each possible case for each input seperatly
