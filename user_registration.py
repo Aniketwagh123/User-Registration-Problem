@@ -17,13 +17,15 @@ class UserValidator:
 
     @classmethod
     def validate_last_name(cls, last_name: str) -> bool:
-        if len(last_name) >= 3 and last_name.istitle():
+        # Ensure last name is at least 3 characters long, starts with an uppercase letter, and does not contain spaces
+        if len(last_name) >= 3 and last_name.istitle() and ' ' not in last_name:
             return True
         return False
 
     @classmethod
     def validate_first_name(cls, first_name: str) -> bool:
-        if len(first_name) >= 3 and first_name.istitle():
+        # Ensure first name is at least 3 characters long, starts with an uppercase letter, and does not contain spaces
+        if len(first_name) >= 3 and first_name.istitle() and ' ' not in first_name:
             return True
         return False
 
@@ -39,8 +41,10 @@ class UserValidator:
         indian_mobile_regex = r'^91\s[789]\d{9}$'
         international_mobile_regex = r'^\d{10}$'
 
+        # Ensure mobile number includes country code for Indian format
         if re.match(indian_mobile_regex, mobile_number):
             return True
+        # Ensure mobile number is 10 digits for international format
         if re.match(international_mobile_regex, mobile_number):
             return True
 
@@ -76,7 +80,7 @@ class InputReader:
                 return first_name
             else:
                 print(
-                    "First name must be at least 3 characters long and the first character in caps. Please try again.")
+                    "First name must be at least 3 characters long, start with a capital letter, and must not contain spaces. Please try again.")
 
     @classmethod
     def last_name_input(cls) -> str:
@@ -86,7 +90,7 @@ class InputReader:
                 return last_name
             else:
                 print(
-                    "Last name must be at least 3 characters long and the first character in caps. Please try again.")
+                    "Last name must be at least 3 characters long, start with a capital letter, and must not contain spaces. Please try again.")
 
     @classmethod
     def email_input(cls) -> str:
@@ -106,7 +110,7 @@ class InputReader:
                 return mobile_number
             else:
                 print(
-                    "Mobile number must be in the format '91 9919819801'. Please try again.")
+                    "Mobile number must be in the format '91 9919819801' for Indian numbers or '1234567890' for international numbers. Please try again.")
 
     @classmethod
     def password_input(cls) -> str:
@@ -128,6 +132,3 @@ if __name__ == "__main__":
     user = User(first_name=first_name, last_name=last_name,
                 email=email, mobile_number=mobile_number, password=password)
     print(user)
-
-
-# TODO: give python script to do unit test using pyTest for each possible case for each input seperatly
